@@ -44,11 +44,15 @@ class ZabbixAPI(object):
         })
 
         self.use_authenticate = use_authenticate
+        self.basic_auth = None
         self.auth = ''
         self.id = 0
 
         self.url = server + '/api_jsonrpc.php'
         logger.info("JSON-RPC Server Endpoint: %s", self.url)
+
+    def http_auth(self, user='', password=''):
+        self.basic_auth = requests.auth.HTTPBasicAuth(user, password)
 
     def login(self, user='', password=''):
         """Convenience method for calling user.authenticate and storing the resulting auth token
@@ -90,6 +94,7 @@ class ZabbixAPI(object):
         response = self.session.post(
             self.url,
             data=json.dumps(request_json),
+            auth=self.basic_auth
         )
         logger.debug("Response Code: %s", str(response.status_code))
 
