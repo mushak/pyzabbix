@@ -10,6 +10,9 @@ ZABBIX_SERVER = 'https://zabbix.example.com'
 
 zapi = ZabbixAPI(ZABBIX_SERVER)
 
+# Uncomment to bypass HTTP authentication
+# zapi.http_auth('user', 'password')
+
 # Login to the Zabbix API
 zapi.login('api_username', 'api_password')
 
